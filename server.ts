@@ -385,7 +385,7 @@ function generatePythonProject(folder: JSZip, graph: any) {
     modelsFolder?.file(`${fileName}.py`, modelContent);
   });
 
-  folder.file("database.py", `from sqlalchemy import create_engine\nfrom sqlalchemy.ext.declarative import declarative_base\nfrom sqlalchemy.orm import sessionmaker\n\nSQLALCHEMY_DATABASE_URL = "sqlite:///./Arachnet.db"\nengine = create_engine(SQLALCHEMY_DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()`);
+  folder.file("database.py", `from sqlalchemy import create_engine\nfrom sqlalchemy.ext.declarative import declarative_base\nfrom sqlalchemy.orm import sessionmaker\n\nSQLALCHEMY_DATABASE_URL = "sqlite:///./arachnet.db"\nengine = create_engine(SQLALCHEMY_DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()`);
 }
 
 // Go project generator (Gin)
