@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { setThemeCookie, getThemeCookie, setLanguageCookie, getLanguageCookie } from './utils/cookies';
 import {
   ReactFlow,
   addEdge,
@@ -606,8 +607,14 @@ export default function App() {
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [language, setLanguage] = useState<'node' | 'python' | 'go' | 'java' | 'csharp'>('node');
-  const [lang, setLang] = useState<Language>('en');
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [lang, setLang] = useState<Language>(() => {
+    const savedLanguage = getLanguageCookie();
+    return savedLanguage || 'en';
+  });
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    const savedTheme = getThemeCookie();
+    return savedTheme || 'dark';
+  });
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [previewFiles, setPreviewFiles] = useState<Record<string, string>>({});
@@ -640,6 +647,16 @@ export default function App() {
         .catch(err => console.error("Failed to load project", err));
     }
   }, []);
+
+  // Salvar tema no cookie quando alterado
+  useEffect(() => {
+    setThemeCookie(theme);
+  }, [theme]);
+
+  // Salvar idioma no cookie quando alterado
+  useEffect(() => {
+    setLanguageCookie(lang);
+  }, [lang]);
 
   const handleShare = async () => {
     const id = Math.random().toString(36).substring(2, 11);
